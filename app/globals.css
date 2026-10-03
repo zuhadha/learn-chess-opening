@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens (PRD §61): calm while learning, high contrast on the board,
+ * and no colour-only feedback — every state also has a label or an icon.
+ */
+@theme {
+  --color-ink-50: #f7f7f8;
+  --color-ink-100: #eeeef1;
+  --color-ink-200: #dcdce2;
+  --color-ink-300: #b9bac4;
+  --color-ink-400: #8b8d9c;
+  --color-ink-500: #64667a;
+  --color-ink-600: #4a4c5e;
+  --color-ink-700: #363846;
+  --color-ink-800: #23252f;
+  --color-ink-900: #16171d;
+
+  --color-board-light: #eef0d7;
+  --color-board-dark: #7b9b62;
+  --color-board-frame: #3d4b33;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-50 text-ink-900 antialiased;
+  }
+
+  /* Visible focus everywhere (PRD §64). */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-emerald-600;
+  }
+}
+
+@layer components {
+  /* Chess pieces are drawn from the solid Unicode glyphs and coloured in CSS so
+     both sides share one shape set and render identically across platforms. */
+  .piece {
+    font-family:
+      "Noto Sans Symbols 2", "Segoe UI Symbol", "Apple Symbols", "DejaVu Sans", sans-serif;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
+
+  .piece-light {
+    color: #fbfcfd;
+    -webkit-text-stroke: 0.055em #16171d;
+    paint-order: stroke fill;
+    text-shadow: 0 0.02em 0.05em rgb(0 0 0 / 0.35);
+  }
+
+  .piece-dark {
+    color: #1b1c22;
+    -webkit-text-stroke: 0.02em #0b0c0f;
+    text-shadow: 0 0.02em 0.05em rgb(0 0 0 / 0.25);
+  }
+
+  .board-square {
+    @apply relative flex items-center justify-center;
+  }
+}
+
+/* Reduced-motion preference (PRD §64). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
